@@ -9,8 +9,8 @@ from image_descripter.image_description.image_descripter import DescriptionGener
 
 
 def main():
-    st.title("Image Upload App")
-    st.write("Upload an image to see it displayed with some basic information.")
+    st.title("Image Description Generator App")
+    st.write("Upload an image to Generate the information.")
     
     options = ["Upload The Local Image", "Upload The Image URL"]
     choice = st.selectbox("Choose an option:", options)
