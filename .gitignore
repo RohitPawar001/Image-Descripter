@@ -109,3 +109,6 @@ image/
 .vscode/
 .idea/
 
+#dataclasses
+imagenet_class_index.json
+
