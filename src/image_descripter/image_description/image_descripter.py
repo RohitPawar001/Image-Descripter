@@ -5,16 +5,23 @@ from langchain_core.prompts import ChatPromptTemplate
 
 load_dotenv()
 
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro", temperature=0.2)
 
-prompt_template = ChatPromptTemplate.from_messages(
-    [
-        ("system", "you are an helpfull assistance give the description about the user query"),
-        ("user", "Tell me something about {topic}")
-    ]
-)
-output_parser = StrOutputParser()
-chain = prompt_template | llm | output_parser
+class DescriptionGenerator:
+    
+    def __init__(self):
+        pass
+        
+    def generate_description(self,recognized_image):
+        llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro", temperature=0.2)
 
-result = chain.invoke({"topic": "tiger cat"})
-#print(result)
+        prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("system", "you are an helpfull assistance give the description about the user query"),
+                ("user", "Tell me something about {topic}")
+            ]
+        )
+        output_parser = StrOutputParser()
+        chain = prompt_template | llm | output_parser
+
+        return chain.invoke({"topic": recognized_image})
+        

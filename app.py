@@ -5,6 +5,7 @@ import io
 import requests
 from io import BytesIO
 from image_descripter.image_recognizer.image_recognization import ImagePredicator
+from image_descripter.image_description.image_descripter import DescriptionGenerator
 
 
 def main():
@@ -39,14 +40,14 @@ def main():
             
           
             results = ImagePredicator.predict_image(image, top_k=5)
-            st.write(f"Prediction: {results[0]['class']} (Probability: {results[0]['probability']:.4f})")
+            pred = results[0]['class']
+            st.write(f"Predicated Image : {pred}")
             
-           
-            st.write("Top predictions:")
-            for i, pred in enumerate(results):
-                st.write(f"{i+1}. {pred['class']} ({pred['probability']:.4f})")
             
-            with st.expander("Image Information", expanded=True):
+            description = DescriptionGenerator()
+            information = description.generate_description(pred)
+            
+            with st.expander("**Image Description:**", expanded=True):
                 
                 width, height = image.size
                 format_type = image.format if hasattr(image, 'format') else "Unknown"
@@ -56,13 +57,8 @@ def main():
                 img_array = np.array(image)
                 
                
-                st.write(f"**Dimensions:** {width} x {height} pixels")
-                st.write(f"**Format:** {format_type}")
-                st.write(f"**Mode:** {mode}")
-                st.write(f"**Size:** {uploaded_file.getbuffer().nbytes / 1024:.2f} KB")
+                st.write(information)
                 
-                if len(img_array.shape) > 2:
-                    st.write(f"**Channels:** {img_array.shape[2]}")
                     
                 
                 img_buffer = io.BytesIO()
